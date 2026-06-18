@@ -1,0 +1,60 @@
+{
+  "entities": {
+    "User": {
+      "title": "User Profile",
+      "description": "User preferences and editorial signature",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "name": { "type": "string" },
+        "bio": { "type": "string" },
+        "role": { "type": "string" },
+        "defaultTone": { "type": "string" },
+        "defaultLanguage": { "type": "string" },
+        "defaultAudience": { "type": "string" },
+        "defaultFormat": { "type": "string" },
+        "seoDensity": { "type": "number" },
+        "credits": { "type": "integer", "description": "Remaining credits for AI generation" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "name"]
+    },
+    "Article": {
+      "title": "Article",
+      "description": "A generated article and its metadata",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "topic": { "type": "string" },
+        "title": { "type": "string" },
+        "content": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "heading": { "type": "string" },
+              "text": { "type": "string" }
+            }
+          }
+        },
+        "heroImages": { "type": "array", "items": { "type": "string" } },
+        "seo": { "type": "object" },
+        "timestamp": { "type": "number" },
+        "status": { "type": "string", "enum": ["draft", "review", "published"] },
+        "scheduledDate": { "type": "string" }
+      },
+      "required": ["id", "userId", "topic", "title", "content"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "Individual user profile"
+    },
+    "/articles/{articleId}": {
+      "schema": "Article",
+      "description": "Saved articles for history and publishing"
+    }
+  }
+}
